@@ -5,4 +5,4 @@ API Simulator is a configuration-driven tool for developers and testers for mode
 This repository will contain the open source components as we make them available.
 
 
-Happy API Simulations!
+Happy API Simulating!
