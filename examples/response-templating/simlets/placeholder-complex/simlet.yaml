@@ -1,0 +1,66 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- where: method
+  equals: GET
+
+- where: UriPath
+  equals: "/api/places/nearby"
+
+- where: uriQueryParameter
+  named: "postalCode"
+  equals: "12345"
+
+- where: uriQueryParameter
+  named: "radius"
+  equals: "10"
+
+# Supposedly, an indicator that the requests are for debugging
+- where: uriQueryParameter
+  named: "debug"
+  exists: true
+
+# At least one query string parameter with name 'placeType' and value 'restaurant'
+- where: uriQueryParameter
+  named: "placeType"
+  equals: "restaurant"
+
+
+PlaceTypeParm:
+  is: parameter
+  # There can be more than one query string parameter with the same name.
+  # This parameter will have them all in a list with items accessible by index.
+  from: uriQueryParameter
+  named: "placeType"
+
+QueryStringParms:
+  is: parameter
+  from: uriQueryParameters
+
+
+response:
+  from: template
+  template: Simula
+
+  # If not configured the status will be defaulted to 200 
+  #status: 200
+  
+  headers:
+  - "Content-Type: application/yaml"
+
+  # Use single and not double quotes for map keys!
+  # Also, notice the mix of single and double quotes
+  body: |+
+    query:
+      queryStringParms:
+        total: ${ QueryStringParms.size() }
+        postalCode-count: ${ QueryStringParms['postalCode'].size() }
+        placeTypes-count: ${ QueryStringParms['placeType'].size() }'
+        placeTypes-first: '${ QueryStringParms['placeType'][0] }'
+        placeTypes-last: "${ QueryStringParms['placeType'][QueryStringParms['placeType'].size() - 1] }" 
+      placeTypeParm:
+        count: ${ PlaceTypeParm.size() }
+        first: "${ PlaceTypeParm[0] }"
+        last: '${ PlaceTypeParm[PlaceTypeParm.size() - 1] }'

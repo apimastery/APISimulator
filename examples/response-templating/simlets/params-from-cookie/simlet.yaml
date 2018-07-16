@@ -1,0 +1,56 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: GET
+
+- where: uriPathPattern
+  matches: "/profile/{id}"
+
+# Matching a cookie value using cookie matcher
+- where: cookie
+  named: lang
+  equals: "en-US"
+
+# Matching a cookie value using parameter from a cookie
+- where: parameter
+  named: SessionIDParm
+  endsWith: "0259"
+
+
+ProfileID:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/profile/{id}"
+  
+SessionIDParm:
+  is: parameter
+  from: cookie
+  named: "SessionID"
+
+LanguageParm:
+  is: parameter
+  from: cookie
+  named: "lang"
+
+
+response:
+  from: template
+  template: Simula
+  
+  status: 200
+  
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+  - "Set-Cookie: SessionID=${ SessionIDParm }; Path=/; Domain=apisimulation.com; Secure; HttpOnly"
+  - "Set-Cookie: lang=${ LanguageParm }; Path=/; Domain=apisimulation.com"
+  
+  body: |
+    {
+      "user-profile": {
+        "id": "${ jsonEncode(ProfileID) }",
+        "first_name": "Peanut",
+        "last_name": "Butter"
+      }
+    }

@@ -1,0 +1,61 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- where: method
+  equals: GET
+
+- where: UriPath
+  equals: "/api/places/nearby"
+
+- where: uriQueryParameter
+  named: "postalCode"
+  equals: "11223"
+
+- where: uriQueryParameter
+  named: "radius"
+  equals: "8"
+
+# At least one query string parameter with name 'placeType' and value 'restaurant'
+- where: uriQueryParameter
+  named: "placeType"
+  equals: "restaurant"
+
+
+
+QueryStringParms:
+  is: parameter
+  from: uriQueryParameters
+
+
+response:
+  from: template
+  template: Simula
+  delimiters:
+    # Do not use '<<' or '>>' as delimiters because they are 
+    # also left and right shift operators, respectively.
+    #
+    # Configuring below Python Jinja-like dellimiters.
+    #
+    # It can be very confusing to use mustache-style delimiters
+    # in JSON body payload...but, yes, it is possible.
+    placeholder:
+      left: "{{"
+      right: "}}"
+    scriptlet:
+      left: "{%"
+      right: "%}"
+
+  status: 200
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+
+  body: |+
+    {
+      "queryStringParms": {
+        "total": {{ QueryStringParms.size() }},
+        "postalCode": "{{ QueryStringParms['postalCode'][0] }}",
+        "isDebug": {% if ( {{ QueryStringParms['debug'] }} != null ) { %}true{% } else { %}false{% } %}
+      }
+    }

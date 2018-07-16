@@ -1,0 +1,39 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- where: UriPath
+  equals: "/template/file/logo"
+
+- method: GET
+
+
+CurrentDateTime:
+  is: parameter
+  from: dateTime
+
+ExpireDateTime:
+  is: parameter
+  from: parameter
+  parameter: currentDateTime 
+  dependency:
+    kind: time
+    amount: 86400 # same as max-age in the Cache-Control header
+    unit: seconds
+
+
+response:
+  from: template
+  template: Simula
+
+  status: 200
+  headers:
+  - "Content-Type: image/png"
+  - "Date: ${ httpDateTime(CurrentDateTime) }"
+  - "Expires: ${ httpDateTime(ExpireDateTime) }"
+  - "Cache-Control: public, max-age=86400"
+
+  body:
+    type: binary
+    file: "${simlets.path}/binary-body-file/favicon-16x16.png"

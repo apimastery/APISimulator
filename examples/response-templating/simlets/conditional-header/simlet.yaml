@@ -1,0 +1,52 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- where: method
+  equals: GET
+
+- where: UriPath
+  equals: "/api/places/nearby"
+
+- where: uriQueryParameter
+  named: "postalCode"
+  equals: "12123"
+
+- where: uriQueryParameter
+  named: "radius"
+  equals: "9"
+
+# At least one query string parameter with name 'placeType' and value 'restaurant'
+- where: uriQueryParameter
+  named: "placeType"
+  equals: "restaurant"
+
+
+OriginHeaderParm:
+  is: parameter
+  from: header 
+  named: "Origin"
+
+
+response:
+  from: template
+  template: Simula
+
+  status: 200
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+
+  # Configuration for optional header field - no name or value are 
+  # to be output unless some condition is met. Requirements:
+  # > The header field value must end with "\r\n" line break;
+  # > Set 'optional: true':
+  - header: "<% if (OriginHeaderParm != null && OriginHeaderParm.trim().length() > 0) 
+                { %>Access-Control-Allow-Origin: ${OriginHeaderParm}\r\n<% } %>"
+    # "optional" is needed because at the time the template is constructed, it is 
+    # unknown if the header field name and value will be empty or not when resolved.
+    # (The template placeholder resolving process doesn't know what is what). So, 
+    # can't add "\r\n" line break automatically when needed but it is not present.
+    optional: true
+
+  body: {}

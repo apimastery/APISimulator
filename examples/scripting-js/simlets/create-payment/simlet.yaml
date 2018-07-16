@@ -1,0 +1,142 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: POST
+
+- where: UriPath
+  equals: "/v1/payments"
+
+- header: "Content-Type"
+  equals: "application/json"
+
+- where: body
+  element: "//payer/funding_instruments/object/credit_card/number"
+  exists: true
+
+
+PaymentID:
+  is: parameter
+  from: token
+  pattern: PAY-[0-9A-Z]{25}
+
+CardNumber:
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/number"
+
+CardType:
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/type"
+
+CardExpireMonth: 
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/expire_month"
+
+CardExpireYear:
+  is: parameter
+  from: body
+  element: "object/payer/funding_instruments/object/credit_card/expire_year"
+
+CardholderFirstName:
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/first_name"
+
+CardholderLastName:
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/last_name"
+
+BillingAddressPostalCode:
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/billing_address/postal_code"
+
+BillingAddressCountry:
+  is: parameter
+  from: body
+  element: "//payer/funding_instruments/object/credit_card/billing_address/country_code"
+
+
+javascriptExecutor:
+  is: scriptExecutor
+  lang: javascript
+  libs:
+  - "${simlets.path}/../scripts"
+
+# Demonstrates the use of an external script.
+MaskCardNumberScript:
+  is: script
+  executor: javascriptExecutor
+  expression: "maskCardNumber('CardNumber', 'x', 4)"
+
+# Demonstrates the use of multi-line inlined script.
+PadZip5Plus4Script:
+  is: script
+  executor: javascriptExecutor
+  expression: |
+    function padZipCode() {
+      var zipCode = '' + _context.getValue('BillingAddressPostalCode');
+      if (zipCode && zipCode.length == 5) {
+        zipCode = zipCode + '-0000';
+      }
+      return zipCode;
+    }
+    padZipCode();
+
+
+CreateTimeNow:
+  is: parameter
+  from: dateTime
+
+MaskedCardNumber:
+  is: parameter 
+  from: script
+  script: "MaskCardNumberScript"
+
+BillingAddressPostalCodePlus4:
+  is: parameter 
+  from: script
+  script: "PadZip5Plus4Script"
+
+
+response:
+  from: template
+  template: Simula
+
+  status: 201
+  
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+  - "Location: /v1/payments/${ PaymentID }"
+
+  body: |+
+    {
+      "id": "${ PaymentID }",
+      "create_time": "${ formatDateTime(CreateTimeNow, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'GMT') }",
+      "state": "approved",
+      "intent": "sale",
+      "payer": {
+        "payment_method": "credit_card",
+        "funding_instruments": [
+          {
+            "credit_card": {
+              "type": "${ CardType }",
+              "number": "${ MaskedCardNumber }",
+              "expire_month": ${ CardExpireMonth },
+              "expire_year": ${ CardExpireYear },
+              "first_name": "${ CardholderFirstName }",
+              "last_name": "${ CardholderLastName }",
+              "billing_address": {
+                "postal_code": "${ BillingAddressPostalCodePlus4 }",
+                "country_code": "${ BillingAddressCountry }"
+              }
+            }
+          }
+        ]
+      }
+    }

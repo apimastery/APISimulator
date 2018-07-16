@@ -1,0 +1,119 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: GET
+
+- where: uriPathPattern
+  matches: "/v1/products/{sku}/{color}/{size}"
+
+
+HttpMethodParm:
+  is: parameter
+  from: httpMethod
+
+UriSchemeParm:
+  is: parameter
+  from: uriScheme
+  default: "N/D"
+
+UriParm:
+  is: parameter
+  # The whole URI. URL-encoded.
+  from: uri
+
+UriPathParm:
+  is: parameter
+  # The path part of the URI.
+  from: uriPath
+
+SkuParm:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/v1/products/{sku}/**"
+
+ColorParm:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/v1/products/*/{color}/*"
+
+SizeParm:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/v1/products/*/*/{size}"
+
+UriUserInfoParm:
+  is: parameter
+  # The user info (user and/or passowrd) part of the URI
+  from: uriUserInfo
+  default: ""
+
+UriHostParm:
+  is: parameter
+  # The host part of the URI
+  from: uriHost
+  default: "N/D"
+
+UriPortParm:
+  is: parameter
+  # The port number part of the URI
+  from: uriPort
+  as: int32
+  default: -1
+
+AllQSParms:
+  is: parameter
+  # Query String Parameters
+  # A map of all query string parameters. Each map entry is keyed by the query
+  # string parameter name and the value is a list with zero or more elements
+  from: uriQueryParameters
+
+QsParm1:
+  is: parameter
+  # A Query String Parameter
+  # There can be more than one query string parameter with the same name.
+  # This parameter will have them all in a list of items accessible by index.
+  from: uriQueryParameter
+  named: "p1"
+
+QsParm2:
+  is: parameter
+  from: uriQueryParameter
+  named: "p2"
+
+UriFragmentParm:
+  is: parameter
+  # The fragment part (the part after '#') of the URI
+  from: uriFragment
+
+HttpVersionParm:
+  is: parameter
+  # The HTTP version the request uses (e.g. HTTP/1.1)
+  from: httpVersion
+
+
+response:
+  from: template
+  template: Simula
+  status: 200
+  headers:
+  - "Content-Type: text/yaml"
+  body: |+
+    request:
+      httpMethod: "${HttpMethodParm}"
+      scheme: "${UriSchemeParm}"
+      uri: "${UriParm}"
+      uriPath: "${UriPathParm}" 
+      host: "${UriHostParm}"
+      port: ${UriPortParm}
+      userInfo: "${UriUserInfoParm}"
+      skuPathSegmentParm: "${SkuParm}"
+      colorPathSegmentParm: "${ColorParm}"
+      sizePathSegmentParm: "${SizeParm}"
+      allQueryStringParms: ${AllQSParms}
+      queryStringParm1: ${QsParm1}
+      queryStringParm2: ${QsParm2}
+      fragment: "${UriFragmentParm}"
+      httpVersion: "${HttpVersionParm}" 
+      

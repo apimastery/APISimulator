@@ -1,0 +1,4 @@
+GET /myProfile HTTP/1.1
+Accept: application/json
+Cookie: session_id=1.2.588334735.1522417635; profile_id=Profile-456; lang=en
+

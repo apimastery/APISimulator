@@ -1,0 +1,76 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- where: method
+  equals: GET
+
+- where: UriPath
+  equals: "/api/places/json"
+
+- where: uriQueryParameter
+  named: "postalCode"
+  equals: "45456"
+
+- where: uriQueryParameter
+  named: "radius"
+  equals: 5
+
+- where: uriQueryParameter
+  named: "types"
+  equals: "food"
+
+
+CurrentDateTime:
+  is: parameter
+  from: dateTime
+  # The value of this parameter won't change regardless
+  # of how many times the parameter is used
+  isSnapshot: true
+
+ExpireDateTime:
+  is: parameter
+  # This parameter is dependent on another parameter
+  from: parameter
+  #parameter: CurrentDateTime
+  named: CurrentDateTime
+  dependency:
+    kind: time
+    amount: 86400 # same as max-age in the Cache-Control header
+    unit: seconds
+  # Now with 'eval', the time-based dependency can be replaced with something like this: 
+  #eval: return _ + (86400 * 1000L)
+
+response:
+  from: template
+  template: Simula
+
+  status: 200
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+  - "Expires: ${ httpDateTime(ExpireDateTime) }"
+  - "Date: ${ httpDateTime(CurrentDateTime) }"
+  - "Cache-Control: public, max-age=86400"
+
+  body: |+
+    {
+       "results" : [
+          {
+             "name" : "Coo-coo Restaurant",
+             "place_id" : "Ch0J6x87RAO6j4ARbjFzE2toxSo",
+             "rating" : 4.2
+          },
+          {
+             "name" : "Cafe Morning Mist",
+             "place_id" : "Ch0JOYz8N005j4ARGju9G_lCIk8",
+             "rating" : 4.3
+          },
+          {
+             "name" : "Jerry's Cafe",
+             "place_id" : "Ch0Jh8lHZdf6j4ARzsQzXj46ITI",
+             "rating" : 4.2
+          }
+       ],
+       "status" : "OK"
+    }

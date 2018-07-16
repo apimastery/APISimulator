@@ -1,0 +1,24 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: PUT
+
+- where: UriPath
+  equals: "/rest/v1/product"
+
+- where: header
+  named: Content-Type
+  equals: "application/json"
+
+- where: body
+  element: "object/product/id"
+  equals: 5678
+
+
+response:
+  from: stub
+  status: 201
+  headers:
+  - "Location: /rest/v1/product/5678/details.json"

@@ -1,0 +1,40 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: GET
+
+- where: UriPath
+  equals: "/api/geolocation/json"
+
+- where: UriQueryParameter
+  named: "address"
+  equals: "100 Pineapple Parkway, Alta Vista, CA"
+
+
+response:
+  from: stub
+  
+  # If not configured the status will be defaulted to 200 
+  #status: 200
+  
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+  
+  # When the body uses the default UTF-8 charset, the body
+  # content can be specified directly as a value like this:
+  body: |+
+    {
+       "results" : [
+          {
+             "formatted_address" : "100 Pineapple Pkwy, Alta Vista, CA",
+             "location" : {
+                "lat" : 34.7223607,
+                "lng" : -102.2841964
+             },
+             "place_id" : "Ch0J2eUgeAK6j4ARbn5u_wAGqWA"
+          }
+       ],
+       "status" : "OK"
+    }

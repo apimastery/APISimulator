@@ -1,0 +1,18 @@
+
+matchers:
+- method: GET
+
+- where: uriPathPattern
+  matches: /greetings/{name}
+
+
+NameParm:
+  is: parameter
+  from: uriPathPattern
+  pattern: /greetings/{name}
+
+
+response:
+  from: template
+  template: Simula
+  body: "Greetings, ${NameParm}!"

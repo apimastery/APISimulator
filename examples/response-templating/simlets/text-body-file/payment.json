@@ -1,0 +1,25 @@
+{
+  "id": "${ PaymentID }",
+  "create_time": "${ formatDateTime(CreateTimeNow, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'GMT') }",
+  "state": "approved",
+  "intent": "sale",
+  "payer": {
+    "payment_method": "credit_card",
+    "funding_instruments": [
+      {
+        "credit_card": {
+          "type": "${ CardType }",
+          "number": "${ CardNumber }",
+          "expire_month": ${ CardExpireMonth },
+          "expire_year": ${ CardExpireYear },
+          "first_name": "${ CardholderFirstName }",
+          "last_name": "${ CardholderLastName }",
+          "billing_address": {
+            "postal_code": "${ BillingAddressPostalCode }",
+            "country_code": "${ BillingAddressCountry }"
+          }
+        }
+      }
+    ]
+  }
+}

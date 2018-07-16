@@ -1,0 +1,34 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: PUT
+
+- where: UriPath
+  equals: "/rest/v2/product"
+
+- header: Content-Type
+  equals: "application/json"
+
+- where: body
+  element: "object/product/id"
+  exists: true
+
+- where: body
+  element: "object/product/name"
+  exists: true
+
+
+ProductID:
+  is: parameter
+  from: body
+  element: "object/product/id"
+
+
+response:
+  from: template
+  template: Simula
+  status: 201
+  headers:
+  - "Location: /rest/v2/product/${ProductID}/details.json"

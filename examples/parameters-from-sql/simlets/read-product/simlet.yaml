@@ -1,0 +1,94 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+
+ProductID:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/v1.1/product/{productID}/**"
+
+ProductColor:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/v1.1/product/*/{color}/*"
+
+ProductSize:
+  is: parameter
+  from: UriPathPattern
+  pattern: "/v1.1/product/*/*/{size}"
+
+ProductData:
+  is: parameter
+  from: sql
+
+  connection:
+    # Currently, pooled connections are not supported
+    uses: driver # pool
+    
+    # Driver's fully-qualified class name
+    driver: "org.h2.Driver"
+    
+    # Using "/./" seems to be required for H2
+    url: "jdbc:h2:${simlets.path}/./product-data"
+    
+    # Credentials must be provided if the database is password-protected
+    username: 
+    password: 
+
+    # Optional other driver-specific name/value properties
+    props:
+      propName: propValue
+
+  # Parameterized SQL query
+  query: |-
+    SELECT p.*, c.* 
+    FROM PRODUCT p, PRICE c 
+    WHERE p.SKU = c.SKU 
+      AND p.ProductID=? 
+      AND p.Color=? 
+      AND p.Size=?
+
+  # Ordered list of parameters to use in querying the SQL database. 
+  # A parameter may appear more than once in the list.
+  # The parameter names need not to match the database column names
+  parms:
+  - ProductID
+  - ProductColor
+  - ProductSize
+
+
+matchers:
+- method: GET
+
+- where: uriPathPattern
+  matches: "/v1.1/product/{id}/{color}/{size}"
+
+- where: parameter
+  named: ProductData
+  exists: true
+
+
+response:
+  from: template
+  template: Simula
+  
+  status: 200
+  
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+
+  body: |+
+    {
+      "product": {
+        "id": "${ ProductData['ProductID'] }",
+        "sku": "${ ProductData['SKU'] }",
+        "name": "${ jsonEncode( ProductData['Name'] ) }",
+        "category": "${ ProductData['Category'] }",
+        "subCategory": "${ ProductData['Subcategory'] }",
+        "color": "${ ProductData['Color'] }",
+        "size": "${ ProductData['Size'] }",
+        "orig_price": ${ ProductData['Original_Price'] },
+        "sale_price": ${ ProductData['Sale_Price'] }
+      }
+    }

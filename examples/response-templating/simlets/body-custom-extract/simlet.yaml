@@ -1,0 +1,50 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: PUT
+
+- where: parameter
+  named: UriPath
+  equals: "/v4/products"
+  
+- header: "Content-Type"
+  equals: "application/vnd.csv"
+
+- where: parameter
+  named: ProductID
+  exists: true
+
+
+UriPath:
+  is: parameter
+  from: uriPath
+
+# Parameter as result of processing the body content
+CsvParms:
+  is: parameter
+  from: body
+  eval: |-
+    if (null == _ || _.trim().length() == 0 || _.indexOf(',') < 0) return null
+    return _.split(',')
+
+# Parameter extracted from the processed body content
+ProductID:
+  is: parameter
+  from: parameter
+  named: CsvParms
+  #eval: |-
+  #  return (_ != null && _.size() > 0 ? _[0] : null)
+  eval:
+    lang: groovy
+    expression: |-
+      return (_ != null && _.size() > 0 ? _[0] : null)
+
+
+response:
+  from: template
+  template: Simula
+  status: 201
+  headers:
+  - "Location: ${ UriPath }/${ ProductID }/details"

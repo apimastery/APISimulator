@@ -1,0 +1,6 @@
+# Default simlet.
+# It will always return the same stubbed payload.
+
+response:
+  from: stub
+  body: "Hello, World!"

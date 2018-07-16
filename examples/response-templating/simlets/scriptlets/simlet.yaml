@@ -1,0 +1,115 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+
+matchers:
+- where: method
+  equals: GET
+
+- where: UriPath
+  equals: "/api/places/nearby"
+
+- where: uriQueryParameter
+  named: "postalCode"
+  equals: "54321"
+
+- where: uriQueryParameter
+  named: "radius"
+  equals: "10"
+
+# At least one query string parameter with name 'placeType' and value 'restaurant'
+- where: uriQueryParameter
+  named: "placeType"
+  equals: "restaurant"
+
+
+QueryStringParms:
+  is: parameter
+  from: uriQueryParameters
+
+OriginHeaderParm:
+  is: parameter
+  from: header 
+  named: "Origin"
+
+
+response:
+  from: template
+  template: Simula
+  # Optional field for the template scriptlets language.
+  # It currently must be 'groovy', if field is specified 
+  lang: groovy
+
+  status: 200
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+
+  # Configuration for optional header field - no name or value are 
+  # to be output unless some condition is met. Requirements:
+  # > The header field value must end with "\r\n" line break;
+  # > Set 'optional: true':
+  - header: "<% if (${OriginHeaderParm} != null && ${OriginHeaderParm.trim().length()} > 0) { %>Allow-Origin: ${OriginHeaderParm}\r\n<% } %>"
+    # "optional" is needed because at the time the template is constructed, it is 
+    # unknown if the header field name and value will be empty or not when resolved.
+    # (The template placeholder resolving process doesn't know what is what). So, 
+    # can't add "\r\n" line break automatically when needed but it is not present.
+    optional: true
+
+  body: |+
+    {
+      "queryStringParms": {
+        "total": ${ QueryStringParms.size() },
+        "postalCode": "${ QueryStringParms['postalCode'][0] }",
+        "placeType": [ 
+          <%
+            // Single-line comment in the scriptlet
+            /*
+              Multi-line
+              comment
+            */
+
+            // Defining a local variable. It is visible in all scriptlets of this template
+            // Here, ${...} surrounds QueryStringParms to denote it is a placeholder 
+            placeTypeParms = ${ QueryStringParms['placeType'] }
+            
+            // Loop over the collection of 'placeType' query string parameter values 
+            for (i = 0; i < placeTypeParms.size(); i++) 
+            {
+              // Adding semicolon ';' at the end is required only 
+              // when using multiple statements on the same line 
+              placeTypeValue = placeTypeParms[i];
+              
+              if (i > 0) 
+              {
+                // Mixing scriptlet code with direct text output
+                // Line break followed by spaces to achieve pretty printing
+                %>,\n      <%
+              }
+              
+              // Writing out the result of string concatenation.
+              // Parenthesis () are optional
+              write ('"' + placeTypeValue + '"')
+            }
+          %>
+        ],
+        <% 
+          /*
+            This is a scriptlet with a multi-line comment only and no other code.
+            
+            It actually causes one empty line in the output because of 
+            where its left and right delimiters appear with respect to
+            the text surrounding it.
+                          
+            The scriptlet below to produce value for "isDebug1"
+            doesn't use ${...} to denote it is a placeholder.
+          */ 
+        %>
+        "isDebug1": <% if (QueryStringParms['debug'] != null) { %>true<% } else { %>false<% } %>,
+        "isDebug2": <%
+          // Ternary operator. Also, this shows coercing 
+          // of non-null object references to true
+          write (QueryStringParms['debug'] ? true : false) 
+        %>
+      }
+    }

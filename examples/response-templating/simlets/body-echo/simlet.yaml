@@ -1,0 +1,44 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+matchers:
+- method: PUT
+
+- where: parameter
+  named: UriPath
+  equals: "/v4/products"
+  
+- header: "Content-Type"
+  equals: "application/json"
+
+- where: parameter
+  named: ProductID
+  exists: true
+
+
+UriPath:
+  is: parameter
+  from: uriPath
+
+# Parameter from a body element
+ProductID:
+  is: parameter
+  from: body
+  element: "//product/id"
+
+# Parameter from the whole body content
+RequestBody:
+  is: parameter
+  from: body
+
+
+response:
+  from: template
+  template: Simula
+  status: 201
+  headers:
+  - "Location: ${ UriPath }/${ ProductID }/details.json"
+  
+  # Echo the body content of the request
+  body: ${RequestBody}

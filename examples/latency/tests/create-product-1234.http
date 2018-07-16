@@ -1,0 +1,5 @@
+PUT /v2/products HTTP/1.1
+Content-Type: application/json
+Content-Length: 108
+
+{"product":{"id":"1234","name":"The Jumpers","category":"Shoes","subCategory":"Basketball","color":"white"}}
