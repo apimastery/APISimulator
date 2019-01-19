@@ -1,7 +1,7 @@
 # API Simulator Dockerfile
 
-# Ubuntu-based
-FROM openjdk:8u162-jre-slim
+# Debian-based
+FROM openjdk:8u181-jre-slim
 
 MAINTAINER http://apisimulator.io/
 
