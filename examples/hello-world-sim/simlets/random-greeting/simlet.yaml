@@ -1,0 +1,27 @@
+# Example: 
+# The response contains a greeting randomly selected from a list.
+#
+# To exercise:
+# Assuming API Simulator is running on localhost, port 6090 execute:
+#  curl localhost:6090/hey
+# or point your browser to
+#  http://localhost:6090/hey 
+#
+
+request:
+- method: GET
+
+- where: uriPath
+  equals: /hey
+
+
+Greeting:
+  is: parameter
+  from: list
+  list: [ Hi, Hello, Hey, Howdy ]
+  pick: 1
+
+
+response:
+  from: template
+  body: ${ Greeting }

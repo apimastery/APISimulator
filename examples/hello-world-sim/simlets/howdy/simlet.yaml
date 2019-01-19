@@ -1,0 +1,15 @@
+#
+# If started on localhost, port 6090:
+# curl localhost:6090/howdy?name=Luke
+#
+
+request:
+- method: GET
+
+- where: uriPath
+  equals: /howdy
+
+
+response:
+  from: template
+  body: "Howdy, ${ _request.queryParams.first('name') ?: 'Stranger' }!"

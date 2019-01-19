@@ -1,0 +1,17 @@
+
+request:
+- method: GET
+
+- where: uriPathPattern
+  matches: /greetings/{name}
+
+
+Name:
+  is: parameter
+  from: uriPathPattern
+  pattern: /greetings/{name}
+
+
+response:
+  from: template
+  body: "Greetings, ${Name}!"
