@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - where: method
   equals: GET
 
@@ -46,7 +46,7 @@ response:
 
   # If not configured the status will be defaulted to 200 
   #status: 200
-  
+
   headers:
   - "Content-Type: application/yaml"
 
@@ -55,12 +55,12 @@ response:
   body: |+
     query:
       queryStringParms:
-        total: ${ QueryStringParms.size() }
-        postalCode-count: ${ QueryStringParms['postalCode'].size() }
-        placeTypes-count: ${ QueryStringParms['placeType'].size() }'
-        placeTypes-first: '${ QueryStringParms['placeType'][0] }'
-        placeTypes-last: "${ QueryStringParms['placeType'][QueryStringParms['placeType'].size() - 1] }" 
+        total: ${ QueryStringParms.count() }
+        postalCode-count: ${ QueryStringParms.count('postalCode') }
+        placeTypes-count: ${ QueryStringParms.count('placeType') }
+        placeTypes-first: '${ QueryStringParms.get('placeType', 0) }'
+        placeTypes-last: "${ QueryStringParms.get('placeType', QueryStringParms.count('placeType') - 1) }" 
       placeTypeParm:
-        count: ${ PlaceTypeParm.size() }
-        first: "${ PlaceTypeParm[0] }"
-        last: '${ PlaceTypeParm[PlaceTypeParm.size() - 1] }'
+        count: ${ PlaceTypeParm.count() }
+        first: "${ PlaceTypeParm.get(0) }"
+        last: '${ PlaceTypeParm[PlaceTypeParm.count() - 1] }'

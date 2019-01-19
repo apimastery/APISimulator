@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------
 
 
-matchers:
+request:
 - method: PUT
 
 - where: UriPath
@@ -13,7 +13,7 @@ matchers:
   equals: "application/json"
 
 - where: body
-  element: "//product/name"
+  element: ".product.name"
   exists: true
 
   # Parameter as a matcher
@@ -28,7 +28,7 @@ matchers:
 ProductID:
   is: parameter
   from: body
-  element: "//product/id"
+  element: ".product.id"
 
 
 response:

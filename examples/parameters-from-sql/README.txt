@@ -39,5 +39,5 @@ For example:
   apisimulator stop examples/parameters-from-sql
 
 
-Happy API Simulations!
+Happy API Simulating!
 @

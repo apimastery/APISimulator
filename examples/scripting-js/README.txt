@@ -34,4 +34,4 @@ For example:
   apisimulator stop examples/scripting-js
 
 
-Happy API Simulations!
+Happy API Simulating!

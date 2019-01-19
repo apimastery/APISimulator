@@ -52,4 +52,4 @@ For example:
   apisimulator stop examples/response-stubbing
 
 
-Happy API Simulations!
+Happy API Simulating!

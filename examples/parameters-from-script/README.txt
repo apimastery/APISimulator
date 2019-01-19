@@ -44,5 +44,5 @@ For example:
   apisimulator stop examples/parameters-from-script
 
 
-Happy API Simulations!
+Happy API Simulating!
 @

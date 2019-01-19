@@ -85,7 +85,7 @@ Run the given cURL command for each of the simlets:
 
 
 * text-body-config
- curl -v -X POST "http://localhost:6090/v2/payments/payment" -H "Content-Type: application/json" -d "{ \"intent\":\"sale\", \"payer\":{ \"payment_method\":\"credit_card\", \"funding_instruments\":[ { \"credit_card\":{ \"number\":\"4417119669820331\", \"type\":\"visa\", \"expire_month\":10, \"expire_year\":2017, \"cvv2\":\"748\", \"first_name\":\"Amy\", \"last_name\":\"Cass\", \"billing_address\":{ \"postal_code\":\"59070\", \"country_code\":\"US\" } } } ] }, \"transactions\":[ { \"amount\":{ \"total\":\"18.67\", \"currency\":\"USD\", \"details\":{ \"subtotal\":\"17.41\", \"tax\":\"0.23\", \"shipping\":\"1.03\" } }, \"description\":\"web sale\" } ]}"
+ curl -v -X POST "http://localhost:6090/v1/payments/payment" -H "Content-Type: application/json" -d "{ \"intent\":\"sale\", \"payer\":{ \"payment_method\":\"credit_card\", \"funding_instruments\":[ { \"credit_card\":{ \"number\":\"4417119669820331\", \"type\":\"visa\", \"expire_month\":10, \"expire_year\":2017, \"cvv2\":\"748\", \"first_name\":\"Amy\", \"last_name\":\"Cass\", \"billing_address\":{ \"postal_code\":\"59070\", \"country_code\":\"US\" } } } ] }, \"transactions\":[ { \"amount\":{ \"total\":\"18.67\", \"currency\":\"USD\", \"details\":{ \"subtotal\":\"17.41\", \"tax\":\"0.23\", \"shipping\":\"1.03\" } }, \"description\":\"web sale\" } ]}"
 
 
 * _default (404 Not Found)
@@ -97,4 +97,4 @@ For example:
   apisimulator stop examples/response-templating
 
 
-Happy API Simulations!
+Happy API Simulating!

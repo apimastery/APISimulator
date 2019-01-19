@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - method: GET
 
 - where: UriPath

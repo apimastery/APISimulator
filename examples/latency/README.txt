@@ -46,4 +46,4 @@ For example:
   apisimulator stop examples/latency
 
 
-Happy API Simulations!
+Happy API Simulating!

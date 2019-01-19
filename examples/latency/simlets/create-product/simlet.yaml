@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - method: PUT
 
 - where: UriPath
@@ -16,14 +16,14 @@ matchers:
   exists: true
 
 - where: body
-  element: "//product/name"
+  element: ".product.name"
   exists: true
 
 
 ProductID:
   is: parameter
   from: body
-  element: "//product/id"
+  element: ".product.id"
 
 
 # Do not change the name - it has to be "delay" 

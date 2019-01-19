@@ -34,4 +34,4 @@ For example:
   apisimulator stop examples/scripting-groovy
 
 
-Happy API Simulations!
+Happy API Simulating!

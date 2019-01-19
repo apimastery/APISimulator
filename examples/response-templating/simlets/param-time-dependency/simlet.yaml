@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - where: method
   equals: GET
 
@@ -33,7 +33,6 @@ ExpireDateTime:
   is: parameter
   # This parameter is dependent on another parameter
   from: parameter
-  #parameter: CurrentDateTime
   named: CurrentDateTime
   dependency:
     kind: time
@@ -41,6 +40,7 @@ ExpireDateTime:
     unit: seconds
   # Now with 'eval', the time-based dependency can be replaced with something like this: 
   #eval: return _ + (86400 * 1000L)
+
 
 response:
   from: template

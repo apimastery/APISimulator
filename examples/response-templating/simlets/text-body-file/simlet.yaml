@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - method: POST
 
 - where: UriPath
@@ -12,49 +12,49 @@ matchers:
   equals: "application/json"
 
 - where: body
-  element: "object/payer/funding_instruments/object/credit_card/number"
+  element: ".payer.funding_instruments[0].credit_card.number"
   exists: true
 
 
 CardNumber:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/number"
+  element: ".payer.funding_instruments[0].credit_card.number"
 
 CardType:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/type"
+  element: ".payer.funding_instruments[0].credit_card.type"
 
 CardExpireMonth: 
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/expire_month"
+  element: ".payer.funding_instruments[0].credit_card.expire_month"
 
 CardExpireYear:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/expire_year"
+  element: ".payer.funding_instruments[0].credit_card.expire_year"
 
 CardholderFirstName:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/first_name"
+  element: ".payer.funding_instruments[0].credit_card.first_name"
 
 CardholderLastName:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/last_name"
+  element: ".payer.funding_instruments[0].credit_card.last_name"
 
 BillingAddressPostalCode:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/billing_address/postal_code"
+  element: ".payer.funding_instruments[0].credit_card.billing_address.postal_code"
 
 BillingAddressCountry:
   is: parameter
   from: body
-  element: "object/payer/funding_instruments/object/credit_card/billing_address/country_code"
+  element: ".payer.funding_instruments[0].credit_card.billing_address.country_code"
 
 CreateTimeNow:
   is: parameter

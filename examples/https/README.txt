@@ -9,4 +9,4 @@ See the online documentation at apisimulator.io for how to configure HTTPS
 using command line arguments.
 
 
-Happy API Simulations!
+Happy API Simulating!

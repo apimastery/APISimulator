@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - where: method
   equals: GET
 
@@ -54,8 +54,8 @@ response:
   body: |+
     {
       "queryStringParms": {
-        "total": {{ QueryStringParms.size() }},
+        "total": {{ QueryStringParms.count() }},
         "postalCode": "{{ QueryStringParms['postalCode'][0] }}",
-        "isDebug": {% if ( {{ QueryStringParms['debug'] }} != null ) { %}true{% } else { %}false{% } %}
+        "isDebug": {% if ( {{ QueryStringParms.contain('debug') }} != null ) { %}true{% } else { %}false{% } %}
       }
     }

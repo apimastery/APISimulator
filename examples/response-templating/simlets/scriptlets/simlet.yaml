@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------
 
 
-matchers:
+request:
 - where: method
   equals: GET
 
@@ -59,8 +59,8 @@ response:
   body: |+
     {
       "queryStringParms": {
-        "total": ${ QueryStringParms.size() },
-        "postalCode": "${ QueryStringParms['postalCode'][0] }",
+        "total": ${ QueryStringParms.count() },
+        "postalCode": "${ QueryStringParms.first('postalCode') }",
         "placeType": [ 
           <%
             // Single-line comment in the scriptlet
@@ -71,10 +71,10 @@ response:
 
             // Defining a local variable. It is visible in all scriptlets of this template
             // Here, ${...} surrounds QueryStringParms to denote it is a placeholder 
-            placeTypeParms = ${ QueryStringParms['placeType'] }
+            placeTypeParms = ${ QueryStringParms.get('placeType') }
             
             // Loop over the collection of 'placeType' query string parameter values 
-            for (i = 0; i < placeTypeParms.size(); i++) 
+            for (i = 0; i < placeTypeParms.count(); i++) 
             {
               // Adding semicolon ';' at the end is required only 
               // when using multiple statements on the same line 
@@ -103,13 +103,13 @@ response:
                           
             The scriptlet below to produce value for "isDebug1"
             doesn't use ${...} to denote it is a placeholder.
-          */ 
+          */
         %>
-        "isDebug1": <% if (QueryStringParms['debug'] != null) { %>true<% } else { %>false<% } %>,
+        "isDebug1": <% if (QueryStringParms.contain('debug')) { %>true<% } else { %>false<% } %>,
         "isDebug2": <%
           // Ternary operator. Also, this shows coercing 
           // of non-null object references to true
-          write (QueryStringParms['debug'] ? true : false) 
+          write (QueryStringParms.get('debug') ? true : false) 
         %>
       }
     }

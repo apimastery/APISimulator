@@ -2,7 +2,7 @@
 # Simlet-specific configuration.
 #----------------------------------------------------------------------
 
-matchers:
+request:
 - method: PUT
 
 - where: UriPath
@@ -13,7 +13,7 @@ matchers:
   equals: "application/json"
 
 - where: body
-  element: "object/product/id"
+  element: ".product.id"
   equals: 5678
 
 

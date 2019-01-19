@@ -38,7 +38,7 @@ ProductData:
   - Size
 
 
-matchers:
+request:
 - method: GET
 
 - where: UriPathPattern

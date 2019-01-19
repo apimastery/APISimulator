@@ -50,5 +50,5 @@ For example:
   apisimulator stop examples/parameters-from-csv
 
 
-Happy API Simulations!
+Happy API Simulating!
 @
