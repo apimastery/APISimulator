@@ -1,8 +1,0 @@
-# This simlet matches any and all requests. API Simulator will execute 
-# this simlet if it cannot match any other simlet from the simulation.
-# The response will always be the same stubbed payload and the default
-# "200 OK" HTTP status.
-
-response:
-  from: stub
-  body: "Hello, World!"

@@ -5,19 +5,19 @@
 
 ProductID:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.2/product/{ProductID}/**"
 
 # Parameter names must match the name of the columns in the CSV data
 ProductColor:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.2/product/*/{Color}/*"
 
 # Parameter names must match the name of the columns in the CSV data
 ProductSize:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.2/product/*/*/{Size}"
 
 ProductData:
@@ -60,7 +60,7 @@ ProductData:
 request:
 - method: GET
 
-- where: UriPathPattern
+- where: uriPathPattern
   matches: "/v1.2/product/{id}/{color}/{size}"
 
 - where: parameter

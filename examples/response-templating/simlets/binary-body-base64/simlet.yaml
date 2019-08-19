@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------
 
 request:
-- where: UriPath
+- where: uriPath
   equals: "/template/conf/logo"
 
 - method: GET

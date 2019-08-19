@@ -5,7 +5,7 @@
 request:
 - method: POST
 
-- where: UriPath
+- where: uriPath
   equals: "/v1/payments/payment"
 
 - header: "Content-Type"

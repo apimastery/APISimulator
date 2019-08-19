@@ -5,17 +5,17 @@
 
 ProductID:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.1/product/{productID}/**"
 
 ProductColor:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.1/product/*/{color}/*"
 
 ProductSize:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.1/product/*/*/{size}"
 
 ProductData:

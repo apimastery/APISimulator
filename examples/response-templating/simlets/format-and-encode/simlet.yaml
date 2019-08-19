@@ -5,7 +5,7 @@
 request:
 - method: POST
 
-- where: UriPath
+- where: uriPath
   equals: "/v3/products"
 
 - header: Content-Type

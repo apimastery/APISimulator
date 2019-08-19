@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------
 
 request:
-- where: UriPath
+- where: uriPath
   equals: "/stub/conf/logo"
 
 - method: GET

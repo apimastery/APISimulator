@@ -7,7 +7,7 @@ request:
 - where: method
   equals: GET
 
-- where: UriPath
+- where: uriPath
   equals: "/api/places/nearby"
 
 - where: uriQueryParameter

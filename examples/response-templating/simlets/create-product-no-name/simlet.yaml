@@ -5,7 +5,7 @@
 request:
 - method: PUT
 
-- where: UriPath
+- where: uriPath
   equals: "/rest/v2/product"
 
 - header: Content-Type

@@ -30,17 +30,17 @@ UriPathParm:
 
 SkuParm:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1/products/{sku}/**"
 
 ColorParm:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1/products/*/{color}/*"
 
 SizeParm:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1/products/*/*/{size}"
 
 UriUserInfoParm:

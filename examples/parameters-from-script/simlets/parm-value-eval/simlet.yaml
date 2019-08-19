@@ -6,7 +6,7 @@
 request:
 - method: GET
 
-- where: UriPath
+- where: uriPath
   equals: "/myProfile"
 
 - where: parameter

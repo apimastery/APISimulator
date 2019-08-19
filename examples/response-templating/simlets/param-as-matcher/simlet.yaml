@@ -6,7 +6,7 @@
 request:
 - method: PUT
 
-- where: UriPath
+- where: uriPath
   equals: "/api/v1/products"
 
 - header: Content-Type

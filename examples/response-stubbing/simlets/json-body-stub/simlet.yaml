@@ -5,7 +5,7 @@
 request:
 - method: GET
 
-- where: UriPath
+- where: uriPath
   equals: "/api/geolocation/json"
 
 - where: UriQueryParameter

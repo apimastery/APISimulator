@@ -5,17 +5,17 @@
 
 ProductID:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.1/product/{ProductID}/**"
 
 Color:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.1/product/*/{Color}/*"
 
 Size:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/v1.1/product/*/*/{Size}"
 
 ProductData:
@@ -41,7 +41,7 @@ ProductData:
 request:
 - method: GET
 
-- where: UriPathPattern
+- where: uriPathPattern
   matches: "/v1.1/product/{id}/{color}/{size}"
 
   # Matcher that tests if the product data keyed by id,  

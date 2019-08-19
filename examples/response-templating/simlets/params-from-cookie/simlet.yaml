@@ -21,7 +21,7 @@ request:
 
 ProfileID:
   is: parameter
-  from: UriPathPattern
+  from: uriPathPattern
   pattern: "/profile/{id}"
   
 SessionIDParm:
