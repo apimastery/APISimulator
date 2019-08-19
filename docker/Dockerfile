@@ -1,18 +1,18 @@
 # API Simulator Dockerfile
 
 # Debian-based
-FROM openjdk:8u181-jre-slim
+FROM openjdk:11.0.4-jre-slim 
 
-MAINTAINER http://apisimulator.io/
+MAINTAINER https://apisimulator.io/
 
 # Pass in as build argument instead. For example:
-# --build-arg APISIMULATOR_VERSION=0.9.0
-#ENV APISIMULATOR_VERSION 0.9.0
+# --build-arg APISIMULATOR_VERSION=1.4
+#ENV APISIMULATOR_VERSION 1.4
 ARG  APISIMULATOR_VERSION
 
 # Download and install API Simulator
 RUN apt-get update \
- && apt-get -y install ca-certificates wget \
+ && apt-get -y install ca-certificates wget unzip \
  && wget -P . https://apisimulator.io/downloads/apisimulator-http-$APISIMULATOR_VERSION-distro.zip \
  && unzip apisimulator-http-$APISIMULATOR_VERSION-distro.zip -d . \
  && rm -f apisimulator-http-$APISIMULATOR_VERSION-distro.zip \
@@ -32,3 +32,4 @@ USER 10101
 
 CMD ["echo", "Visit apisimulator.io for how to use this image to run API Simulator or API Recorder"]
 # @END
+ 
