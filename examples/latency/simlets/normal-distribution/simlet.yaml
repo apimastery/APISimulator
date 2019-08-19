@@ -1,0 +1,25 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+request:
+- method: GET
+
+- where: uriPath
+  equals: "/normalDistribution/products/4321/details.json"
+
+
+response:
+  from: stub
+
+  latency:
+    timeUnit: milliseconds
+    distribution: 
+      normal:
+        median: 100.0
+        stdDev: 1.5
+
+  status: 200
+  headers:
+  - "Content-Type: application/json"
+  body: '{"product":{"id":"4321","name":"NormalDistribution","category":"Shoes","subCategory":"Basketball","color":"white"}}'

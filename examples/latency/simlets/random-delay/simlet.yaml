@@ -1,0 +1,41 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+request:
+- method: PUT
+
+- where: uriPath
+  equals: "/v2/products"
+
+- header: "Content-Type"
+  equals: "application/json"
+
+- where: parameter
+  named: ProductID
+  exists: true
+
+- where: body
+  element: ".product.name"
+  exists: true
+
+
+ProductID:
+  is: parameter
+  from: body
+  element: ".product.id"
+
+
+response:
+  from: template
+
+  latency:
+    timeUnit: milliseconds
+    # Random delay between the 'min' and 'max' values 
+    random:
+      min: 50
+      max: 150
+
+  status: 201
+  headers:
+  - "Location: /v2/products/${ProductID}/details.json"

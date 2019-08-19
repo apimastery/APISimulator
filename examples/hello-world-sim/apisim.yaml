@@ -1,0 +1,147 @@
+#======================================================================
+# Example Overview:
+# This simlet matches any and all requests. API Simulator will execute 
+# this simlet if it cannot match any other simlet from the simulation.
+# The response will always be the same stubbed body and the default
+# "200 OK" HTTP status.
+#
+# To Exercise:
+# If started on localhost, default port 6090, execute
+#  curl localhost:6090
+#  curl localhost:6090/say-what
+# or point your browser to
+#  http://localhost:6090
+#  http://localhost:6090/say-what
+# All of the above yield
+# Hello, World!
+#======================================================================
+simlet: hello-world
+
+response:
+  from: stub
+  body: "Hello, World!"
+---
+#======================================================================
+# Example Overview:
+# Using URI path variable parameter from the request to 
+# generate dynamic responses.
+#
+# To Exercise:
+# If started on localhost, default port 6090, execute
+#  curl localhost:6090/greetings/Luke
+# or point your browser to
+#  http://localhost:6090/greetings/Luke
+# Both yield
+#  Greetings, Luke!
+#======================================================================
+simlet: greetings
+
+request:
+- method: GET
+- uriPathPattern: /greetings/{name}
+
+Name:
+  is: parameter
+  from: uriPathPattern
+  pattern: /greetings/{name}
+
+response:
+  from: template
+  body: "Greetings, ${Name}!"
+---
+#======================================================================
+# Example Overview:
+# Using URI query parameter from the request to 
+# generate dynamic responses.
+#
+# To Exercise:
+# If started on localhost, default port 6090, execute
+#  curl localhost:6090/hi?name=Luke
+#  curl localhost:6090/hi?name=Luke&name=Chewbacca
+#  curl localhost:6090/hi?name=
+#  curl localhost:6090/hi
+# Or try in a browser
+#  http://localhost:6090/hi?name=Luke
+#  http://localhost:6090/hi?name=Luke&name=Chewbacca
+#  http://localhost:6090/hi?name=
+#  http://localhost:6090/hi
+#
+# A shorter expression in the placeholder could be this: 
+#   Name?.first() ?: 'Stranger'
+#======================================================================
+simlet: hi
+
+request:
+- method: GET
+- uriPath: /hi
+
+Name:
+  is: parameter
+  from: uriQueryParameter
+  named: name
+
+response:
+  from: template
+  body: "Hi, ${ Name && Name.first() ? Name.first() : 'Stranger' }!"
+---
+#======================================================================
+# Example Overview:
+# API Simulator has a built-in object - _request - that you can use
+# in a Simula template to get any component of the request without 
+# defining a parameter.
+# This example uses the _request object to get the first value of a 
+# URI query parameter from the request to generate dynamic responses.
+#
+# To Exercise:
+# If started on localhost, default port 6090, execute
+#  curl localhost:6090/howdy?name=Luke
+#  curl localhost:6090/howdy?name=
+#  curl localhost:6090/howdy
+#  curl localhost:6090/howdy?name=Luke&name=Chewbacca 
+# or try in your browser
+#  http://localhost:6090/howdy?name=Luke
+#  http://localhost:6090/howdy?name=
+#  http://localhost:6090/howdy
+#  http://localhost:6090/howdy?name=Luke&name=Chewbacca
+#======================================================================
+simlet: howdy
+
+request:
+- method: GET
+- uriPath: /howdy
+
+response:
+  from: template
+  body: "Howdy, ${ _request.queryParams.first('name') ?: 'Stranger' }!"
+---
+#======================================================================
+# Example Overview:
+# The response contains a greeting randomly selected from a list.
+#
+# To Exercise:
+# If started on localhost, default port 6090, execute
+#  curl localhost:6090/hey
+# or point your browser to
+#  http://localhost:6090/hey
+# API Simulator will reply with one of the values from the list,
+# randomly selected. Exercise the example few times to see how
+# the response changes. 
+#======================================================================
+simlet: random-greeting
+
+request:
+- method: GET
+- uriPath: /hey
+
+Greeting:
+  is: parameter
+  from: list
+  list: [ 'Hi', 'Hello', 'Hey', 'Howdy' ]
+  pick: 1
+
+response:
+  from: template
+  body: ${ Greeting }
+---
+# These examples only scratch the surface of what is possible 
+# with API Simulator. For more, visit https://apisimulator.io
