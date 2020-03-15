@@ -1,0 +1,39 @@
+#
+# Example demonstrating configuration for simulating
+# request rate limiting.
+#
+simlet: rate-limiting
+
+
+request:
+- uriPath: /rate-limited-api
+- method: GET
+
+
+responses:
+- when:
+    request:
+    - where: callsPerSecond
+      exceed: 100
+  # then
+  from: stub
+  status: 429
+  headers:
+  - "Content-Type: application/json"
+  - "X-RateLimit-Limit: 100"
+  body: |
+    {
+      "status": "error",
+      "message": "Rate limit exceeded"
+    }
+
+  # otherwise
+- from: stub
+  status: 200
+  headers:
+  - "Content-Type: application/json"
+  body: |
+    {
+      "status": "OK"
+    }
+#---

@@ -9,7 +9,7 @@ request:
   equals: "/rest/v1/product"
 
 - header: Content-Type
-  equals: "application/json"
+  startsWith: "application/json"
 
 - where: body
   element: ".product.id"

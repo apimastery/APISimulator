@@ -10,7 +10,7 @@ request:
 
 - where: header
   named: Content-Type
-  equals: "application/json"
+  startsWith: "application/json"
 
 - where: body
   element: ".product.id"
