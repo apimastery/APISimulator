@@ -1,5 +1,0 @@
-GET /rest/v1/product/2706414/Solid+Gray/M HTTP/1.1
-User-Agent: Awesome HTTP Client
-Accept: text/json,application/json;q=0.9,*/*;q=0.8
-Connection: keep-alive
-

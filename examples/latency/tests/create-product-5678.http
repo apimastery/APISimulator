@@ -1,5 +1,0 @@
-PUT /v2/products HTTP/1.1
-Content-Type: application/json
-Content-Length: 105
-
-{"product":{"id":"5678","name":"The Rockets","category":"Shoes","subCategory":"Running","color":"white"}}
