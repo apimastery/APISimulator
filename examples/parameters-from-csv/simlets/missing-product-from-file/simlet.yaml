@@ -49,9 +49,10 @@ response:
   headers:
   - "Content-Type: application/json; charset=UTF-8"
 
-  body: |+
-    {
-      "status": "error",
-      "code": 2011,
-      "description": "No product found for ProductID='${ProductID}', Color='${Color}', and Size='${Size}'"
-    }
+  body: `
+{
+  "status": "error",
+  "code": 2011,
+  "description": "No product found for ProductID='${ProductID}', Color='${Color}', and Size='${Size}'"
+}
+`

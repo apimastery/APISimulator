@@ -26,13 +26,16 @@ ProductData:
     uses: driver
     driver: "org.h2.Driver"
     url: "jdbc:h2:${simlets.path}/./product-data"
-  query: |-
-    SELECT p.*, c.* 
-    FROM PRODUCT p, PRICE c 
-    WHERE p.SKU = c.SKU 
-      AND p.ProductID=? 
-      AND p.Color=? 
-      AND p.Size=?
+
+  query: `
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+`
+
   parms:
   - ProductID
   - ProductColor
@@ -59,9 +62,10 @@ response:
   headers:
   - "Content-Type: application/json; charset=UTF-8"
 
-  body: |+
-    {
-      "status": "error",
-      "code": 2011,
-      "description": "No product found for ProductID='${ProductID}', Color='${ProductColor}', and Size='${ProductSize}'"
-    }
+  body: `
+  {
+    "status": "error",
+    "code": 2011,
+    "description": "No product found for ProductID='${ProductID}', Color='${ProductColor}', and Size='${ProductSize}'"
+  }
+`

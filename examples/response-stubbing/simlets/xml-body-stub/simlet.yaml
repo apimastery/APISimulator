@@ -27,16 +27,17 @@ response:
     # Optional charset. Defaults to UTF-8 
     charset: UTF-8
     # Specify body content as value of a 'text' element when there is charset configuration  
-    text: |+
-      <GeocodeResponse>
-         <status>OK</status>
-         <result>
-            <type>street_address</type>
-            <formatted_address>100 Pineapple Pkwy, Alta Vista, CA</formatted_address>
-            <location>
-               <lat>34.7224504</lat>
-               <lng>-102.2840859</lng>
-            </location>
-            <place_id>Ch0J2eUgeAK6j4ARbn5u_wAGqWA</place_id>
-         </result>
-      </GeocodeResponse>
+    text: `
+<GeocodeResponse>
+   <status>OK</status>
+   <result>
+      <type>street_address</type>
+      <formatted_address>100 Pineapple Pkwy, Alta Vista, CA</formatted_address>
+      <location>
+         <lat>34.7224504</lat>
+         <lng>-102.2840859</lng>
+      </location>
+      <place_id>Ch0J2eUgeAK6j4ARbn5u_wAGqWA</place_id>
+   </result>
+</GeocodeResponse>
+`

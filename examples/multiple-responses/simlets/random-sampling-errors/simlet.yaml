@@ -21,19 +21,21 @@ responses:
   status: 503
   headers:
   - "Content-Type: application/json"
-  body: |
-    {
-      "status": "error",
-      "message": "Service Unavailable"
-    }
+  body: `
+{
+  "status": "error",
+  "message": "Service Unavailable"
+}
+`
 
   # otherwise
 - from: stub
   status: 200
   headers:
   - "Content-Type: application/json"
-  body: |
-    {
-      "status": "OK"
-    }
+  body: `
+{
+  "status": "OK"
+}
+`
 #---

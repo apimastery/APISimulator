@@ -46,11 +46,12 @@ response:
   - "Set-Cookie: SessionID=${ SessionIDParm }; Path=/; Domain=apisimulation.com; Secure; HttpOnly"
   - "Set-Cookie: lang=${ LanguageParm }; Path=/; Domain=apisimulation.com"
   
-  body: |
-    {
-      "user-profile": {
-        "id": "${ jsonEncode(ProfileID) }",
-        "first_name": "Peanut",
-        "last_name": "Butter"
-      }
-    }
+  body: `
+{
+  "user-profile": {
+    "id": "${ jsonEncode(ProfileID) }",
+    "first_name": "Peanut",
+    "last_name": "Butter"
+  }
+}
+`

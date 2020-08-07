@@ -21,19 +21,21 @@ responses:
   headers:
   - "Content-Type: application/json"
   - "X-RateLimit-Limit: 100"
-  body: |
-    {
-      "status": "error",
-      "message": "Rate limit exceeded"
-    }
+  body: `
+{
+  "status": "error",
+  "message": "Rate limit exceeded"
+ }
+`
 
   # otherwise
 - from: stub
   status: 200
   headers:
   - "Content-Type: application/json"
-  body: |
-    {
-      "status": "OK"
-    }
+  body: `
+{
+  "status": "OK"
+}
+`
 #---

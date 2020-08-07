@@ -1,0 +1,18 @@
+#----------------------------------------------------------------------
+# Simlet-specific configuration.
+#----------------------------------------------------------------------
+
+request:
+- uriPath: "/stub/file/text"
+- method: GET
+
+
+response:
+  from: stub
+  status: 200
+  headers:
+  - "Content-Type: application/json; charset=UTF-8"
+  body:
+    # implied type text
+    # type: text
+    file: "${simlets.path}/text-file-body-stub/place.json"

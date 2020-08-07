@@ -51,11 +51,12 @@ response:
   headers:
   - "Content-Type: application/json; charset=UTF-8"
 
-  body: |+
-    {
-      "queryStringParms": {
-        "total": {{ QueryStringParms.count() }},
-        "postalCode": "{{ QueryStringParms['postalCode'][0] }}",
-        "isDebug": {% if ( {{ QueryStringParms.contain('debug') }} != null ) { %}true{% } else { %}false{% } %}
-      }
-    }
+  body: `
+{
+  "queryStringParms": {
+    "total": {{ QueryStringParms.count() }},
+    "postalCode": "{{ QueryStringParms['postalCode'][0] }}",
+    "isDebug": {% if ( {{ QueryStringParms.contain('debug') }} != null ) { %}true{% } else { %}false{% } %}
+  }
+}
+`

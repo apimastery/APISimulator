@@ -17,124 +17,124 @@ request:
 response:
   from: template
   template: Simula
-  body: |-
-    # This is not JSON but just formatting to show hierarchical information
-    {
-      request: {
-        method: ${ _request.method }
-        httpVersion: ${ _request.httpVersion }
-        uri: {
-          value: ${ _request.uri.value }
-          scheme: ${ _request.uri.scheme }
-          userInfo: ${ _request.uri.userInfo }
-          host: ${ _request.uri.host }
-          port: ${ _request.uri.port }
-          path: {
-            value: ${ _request.uri.path.value }
-            segments: {
-              exist: ${ _request.uri.path.segments.exist }
-              count: ${ _request.uri.path.segments.count }
-              # _request.pathSegments is shortcut for _request.uri.path.segments
-              values: [
-                ${ _request.pathSegments.get(0) }
-                ${ _request.pathSegments[1] }
-              ]
-            }
-          }
-          query: {
-            value: ${ _request.uri.query.value }
-            params: {
-              count: ${ _request.uri.query.params.count }
-              values: [
-                {
-                  name: postalcode
-                  exists: ${ _request.uri.query.params.contain('postalcode') }
-                  count: ${ _request.uri.query.params.count('postalcode') }
-                  values: [
-                    ${ _request.uri.query.params.get('postalcode', 0) }
-                  ]
-                }
-                {
-                  # HTTP URI query string parameter names are case sensitive. Thus, for a
-                  # parameter 'postalcode' this will yield exists as false and count as 0
-                  name: PostalCode
-                  exists: ${ _request.uri.query.params.contain('PostalCode') }
-                  count: ${ _request.uri.query.params.count('PostalCode') }
-                  values: []
-                }
-                {
-                  # _request.queryParams is shortcut for _request.uri.query.params
-                  name: types
-                  exists: ${ _request.queryParams.contain('types') }
-                  count: ${ _request.queryParams.count('types') }
-                  values: [
-                    ${ _request.queryParams.first('types') }
-                    ${ _request.queryParams.get('types', 1) }
-                  ]
-                }
-                {
-                  name: checked
-                  exists: ${ _request.uri.query.params.contain('checked') }
-                  count: ${ _request.uri.query.params.count('checked') }
-                  values: [
-                    ${ _request.uri.query.params.first('checked') }
-                  ]
-                }
-                {
-                  name: blah
-                  exists: ${ _request.uri.query.params.contain('blah') }
-                  count: ${ _request.uri.query.params.count('blah') }
-                  values: []
-                }
-              ]
-            }
-          }
-          fragment: ${ _request.uri.fragment }
-        }
-        headers: {
-          count: ${ _request.headers.count }
+  body: `
+# This is not JSON but just formatting to show hierarchical information
+{
+  request: {
+    method: ${ _request.method }
+    httpVersion: ${ _request.httpVersion }
+    uri: {
+      value: ${ _request.uri.value }
+      scheme: ${ _request.uri.scheme }
+      userInfo: ${ _request.uri.userInfo }
+      host: ${ _request.uri.host }
+      port: ${ _request.uri.port }
+      path: {
+        value: ${ _request.uri.path.value }
+        segments: {
+          exist: ${ _request.uri.path.segments.exist }
+          count: ${ _request.uri.path.segments.count }
+          # _request.pathSegments is shortcut for _request.uri.path.segments
           values: [
-            {
-              name: Accept 
-              exists: ${ _request.headers.contain('ACCEPT') }
-              count: ${ _request.headers.count('accept') }
-              values: [
-                ${ _request.headers.get('AcCePt', 0) }
-              ]
-            }
-            {
-              name: Cookie
-              exists: ${ _request.headers.contain('Cookie') }
-              count: ${ _request.headers.count('Cookie') }
-              values: [
-                ${ _request.headers.get('Cookie', 0) }
-              ]
-            }
-            {
-              name: Origin
-              exists: ${ _request.headers.contain('Origin') }
-              count: ${ _request.headers.count('Origin') }
-              values: [${ _request.headers.get('Origin', 0) ?: '' }]
-            }
+            ${ _request.pathSegments.get(0) }
+            ${ _request.pathSegments[1] }
           ]
         }
-        cookies: {
-          exist: ${ _request.cookies.exist }
-          count: ${ _request.cookies.count }
-          values: [
-            {
-              name: lang
-              exists: ${ _request.cookies.contain('lang') }
-              value: ${ _request.cookies.get('lang') }
-            }
-            {
-              name: SESSION
-              exists: ${ _request.cookies.contain('SESSION') }
-              value: <% q = (_request.cookies.contain('SESSION') ? '"' : '') 
-                        write q + _request.cookies.get('SESSION') + q %>
-            }
-          ]
-        }
-        body: <% write (_request.bodyText ?: null) %>
       }
+      query: {
+        value: ${ _request.uri.query.value }
+        params: {
+          count: ${ _request.uri.query.params.count }
+          values: [
+            {
+              name: postalcode
+              exists: ${ _request.uri.query.params.contain('postalcode') }
+              count: ${ _request.uri.query.params.count('postalcode') }
+              values: [
+                ${ _request.uri.query.params.get('postalcode', 0) }
+              ]
+            }
+            {
+              # HTTP URI query string parameter names are case sensitive. Thus, for a
+              # parameter 'postalcode' this will yield exists as false and count as 0
+              name: PostalCode
+              exists: ${ _request.uri.query.params.contain('PostalCode') }
+              count: ${ _request.uri.query.params.count('PostalCode') }
+              values: []
+            }
+            {
+              # _request.queryParams is shortcut for _request.uri.query.params
+              name: types
+              exists: ${ _request.queryParams.contain('types') }
+              count: ${ _request.queryParams.count('types') }
+              values: [
+                ${ _request.queryParams.first('types') }
+                ${ _request.queryParams.get('types', 1) }
+              ]
+            }
+            {
+              name: checked
+              exists: ${ _request.uri.query.params.contain('checked') }
+              count: ${ _request.uri.query.params.count('checked') }
+              values: [
+                ${ _request.uri.query.params.first('checked') }
+              ]
+            }
+            {
+              name: blah
+              exists: ${ _request.uri.query.params.contain('blah') }
+              count: ${ _request.uri.query.params.count('blah') }
+              values: []
+            }
+          ]
+        }
+      }
+      fragment: ${ _request.uri.fragment }
     }
+    headers: {
+      count: ${ _request.headers.count }
+      values: [
+        {
+          name: Accept 
+          exists: ${ _request.headers.contain('ACCEPT') }
+          count: ${ _request.headers.count('accept') }
+          values: [
+            ${ _request.headers.get('AcCePt', 0) }
+          ]
+        }
+        {
+          name: Cookie
+          exists: ${ _request.headers.contain('Cookie') }
+          count: ${ _request.headers.count('Cookie') }
+          values: [
+            ${ _request.headers.get('Cookie', 0) }
+          ]
+        }
+        {
+          name: Origin
+          exists: ${ _request.headers.contain('Origin') }
+          count: ${ _request.headers.count('Origin') }
+          values: [${ _request.headers.get('Origin', 0) ?: '' }]
+        }
+      ]
+    }
+    cookies: {
+      exist: ${ _request.cookies.exist }
+      count: ${ _request.cookies.count }
+      values: [
+        {
+          name: lang
+          exists: ${ _request.cookies.contain('lang') }
+          value: ${ _request.cookies.get('lang') }
+        }
+        {
+          name: SESSION
+          exists: ${ _request.cookies.contain('SESSION') }
+          value: <% q = (_request.cookies.contain('SESSION') ? '"' : '') 
+                    write q + _request.cookies.get('SESSION') + q %>
+        }
+      ]
+    }
+    body: <% write (_request.bodyText ?: null) %>
+  }
+}`

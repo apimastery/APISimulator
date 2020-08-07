@@ -52,15 +52,16 @@ response:
 
   # Use single and not double quotes for map keys!
   # Also, notice the mix of single and double quotes
-  body: |+
-    query:
-      queryStringParms:
-        total: ${ QueryStringParms.count() }
-        postalCode-count: ${ QueryStringParms.count('postalCode') }
-        placeTypes-count: ${ QueryStringParms.count('placeType') }
-        placeTypes-first: '${ QueryStringParms.get('placeType', 0) }'
-        placeTypes-last: "${ QueryStringParms.get('placeType', QueryStringParms.count('placeType') - 1) }" 
-      placeTypeParm:
-        count: ${ PlaceTypeParm.count() }
-        first: "${ PlaceTypeParm.get(0) }"
-        last: '${ PlaceTypeParm[PlaceTypeParm.count() - 1] }'
+  body: `
+query:
+  queryStringParms:
+    total: ${ QueryStringParms.count() }
+    postalCode-count: ${ QueryStringParms.count('postalCode') }
+    placeTypes-count: ${ QueryStringParms.count('placeType') }
+    placeTypes-first: '${ QueryStringParms.get('placeType', 0) }'
+    placeTypes-last: "${ QueryStringParms.get('placeType', QueryStringParms.count('placeType') - 1) }" 
+  placeTypeParm:
+    count: ${ PlaceTypeParm.count() }
+    first: "${ PlaceTypeParm.get(0) }"
+    last: '${ PlaceTypeParm[PlaceTypeParm.count() - 1] }'
+`

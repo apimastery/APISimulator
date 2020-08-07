@@ -25,21 +25,20 @@ UriPath:
 CsvParms:
   is: parameter
   from: body
-  eval: |-
-    if (null == _ || _.trim().length() == 0 || _.indexOf(',') < 0) return null
-    return _.split(',')
+  eval: `
+      if (null == _ || _.trim().length() == 0 || _.indexOf(',') < 0) return null
+      return _.split(',')
+`
 
 # Parameter extracted from the processed body content
 ProductID:
   is: parameter
   from: parameter
   named: CsvParms
-  #eval: |-
-  #  return (_ != null && _.size() > 0 ? _[0] : null)
+  # Explicit about the language
   eval:
     lang: groovy
-    expression: |-
-      return (_ != null && _.size() > 0 ? _[0] : null)
+    expression: "return (_ != null && _.size() > 0 ? _[0] : null)"
 
 
 response:

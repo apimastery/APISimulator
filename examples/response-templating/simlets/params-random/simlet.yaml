@@ -93,17 +93,18 @@ response:
   - "X-Callback-Token: ${ CallbackToken }"
   - "X-Region-AvailZone: ${ RegionAZ }"
 
-  body: |+
-    <% 
-      for (i = 0; i < AvailableZones.size(); i++) {
-        write ('"availZone' + (i + 1) + '": "' + AvailableZones[i] + '"\n')
-      } 
+  body: `
+  <% 
+    for (i = 0; i < AvailableZones.size(); i++) {
+      write ('"availZone' + (i + 1) + '": "' + AvailableZones[i] + '"\n')
+    } 
 
-      for (f = 0; f < FirstNameList.size(); f++) {
-         write ('"first_name' + (f + 1) + '": "' + FirstNameList[f] + '"\n')
-      }
+    for (f = 0; f < FirstNameList.size(); f++) {
+       write ('"first_name' + (f + 1) + '": "' + FirstNameList[f] + '"\n')
+    }
 
-      for (l = 0; l < LastNameList.size(); l++) {
-         write ('"last_name' + (l + 1) + '": "' + LastNameList[l] + '"\n')
-      }
-    %>
+    for (l = 0; l < LastNameList.size(); l++) {
+       write ('"last_name' + (l + 1) + '": "' + LastNameList[l] + '"\n')
+    }
+ %>
+`

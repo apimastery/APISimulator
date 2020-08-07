@@ -61,17 +61,18 @@ response:
   headers:
   - "Content-Type: application/json; charset=UTF-8"
 
-  body: |+
-    {
-      "product": {
-        "id": "${ ProductData['ProductID'] }",
-        "sku": "${ ProductData['SKU'] }",
-        "name": "${ jsonEncode( ProductData['Name'] ) }",
-        "category": "${ ProductData['Category'] }",
-        "subCategory": "${ ProductData['Subcategory'] }",
-        "color": "${ ProductData['Color'] }",
-        "size": "${ ProductData['Size'] }",
-        "orig_price": ${ ProductData['Original_Price'] },
-        "sale_price": ${ ProductData['Sale_Price'] }
-      }
-    }
+  body: `
+{
+  "product": {
+    "id": "${ ProductData['ProductID'] }",
+    "sku": "${ ProductData['SKU'] }",
+    "name": "${ jsonEncode( ProductData['Name'] ) }",
+    "category": "${ ProductData['Category'] }",
+    "subCategory": "${ ProductData['Subcategory'] }",
+    "color": "${ ProductData['Color'] }",
+    "size": "${ ProductData['Size'] }",
+    "orig_price": ${ ProductData['Original_Price'] },
+    "sale_price": ${ ProductData['Sale_Price'] }
+  }
+}
+`

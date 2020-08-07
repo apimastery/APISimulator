@@ -41,13 +41,14 @@ ProductData:
       propName: propValue
 
   # Parameterized SQL query
-  query: |-
-    SELECT p.*, c.* 
-    FROM PRODUCT p, PRICE c 
-    WHERE p.SKU = c.SKU 
-      AND p.ProductID=? 
-      AND p.Color=? 
-      AND p.Size=?
+  query: `
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+`
 
   # Ordered list of parameters to use in querying the SQL database. 
   # A parameter may appear more than once in the list.
@@ -78,9 +79,9 @@ response:
   headers:
   - "Content-Type: application/json; charset=UTF-8"
 
-  body: |+
-    {
-      "product": {
+  body: `
+  {
+     "product": {
         "id": "${ ProductData['ProductID'] }",
         "sku": "${ ProductData['SKU'] }",
         "name": "${ jsonEncode( ProductData['Name'] ) }",
@@ -90,5 +91,6 @@ response:
         "size": "${ ProductData['Size'] }",
         "orig_price": ${ ProductData['Original_Price'] },
         "sale_price": ${ ProductData['Sale_Price'] }
-      }
-    }
+     }
+  }
+`

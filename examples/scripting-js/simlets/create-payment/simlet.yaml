@@ -78,16 +78,16 @@ MaskCardNumberScript:
 PadZip5Plus4Script:
   is: script
   executor: javascriptExecutor
-  expression: |
-    function padZipCode() {
-      var zipCode = '' + _context.getValue('BillingAddressPostalCode');
-      if (zipCode && zipCode.length == 5) {
-        zipCode = zipCode + '-0000';
-      }
-      return zipCode;
-    }
-    padZipCode();
-
+  expression: `
+function padZipCode() {
+  var zipCode = '' + _context.getValue('BillingAddressPostalCode');
+  if (zipCode && zipCode.length == 5) {
+    zipCode = zipCode + '-0000';
+  }
+  return zipCode;
+}
+padZipCode();
+`
 
 CreateTimeNow:
   is: parameter
@@ -114,29 +114,30 @@ response:
   - "Content-Type: application/json; charset=UTF-8"
   - "Location: /v1/payments/${ PaymentID }"
 
-  body: |+
-    {
-      "id": "${ PaymentID }",
-      "create_time": "${ formatDateTime(CreateTimeNow, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'GMT') }",
-      "state": "approved",
-      "intent": "sale",
-      "payer": {
-        "payment_method": "credit_card",
-        "funding_instruments": [
-          {
-            "credit_card": {
-              "type": "${ CardType }",
-              "number": "${ MaskedCardNumber }",
-              "expire_month": ${ CardExpireMonth },
-              "expire_year": ${ CardExpireYear },
-              "first_name": "${ CardholderFirstName }",
-              "last_name": "${ CardholderLastName }",
-              "billing_address": {
-                "postal_code": "${ BillingAddressPostalCodePlus4 }",
-                "country_code": "${ BillingAddressCountry }"
-              }
-            }
+  body: `
+{
+  "id": "${ PaymentID }",
+  "create_time": "${ formatDateTime(CreateTimeNow, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'GMT') }",
+  "state": "approved",
+  "intent": "sale",
+  "payer": {
+    "payment_method": "credit_card",
+    "funding_instruments": [
+      {
+        "credit_card": {
+          "type": "${ CardType }",
+          "number": "${ MaskedCardNumber }",
+          "expire_month": ${ CardExpireMonth },
+          "expire_year": ${ CardExpireYear },
+          "first_name": "${ CardholderFirstName }",
+          "last_name": "${ CardholderLastName }",
+          "billing_address": {
+            "postal_code": "${ BillingAddressPostalCodePlus4 }",
+            "country_code": "${ BillingAddressCountry }"
           }
-        ]
+        }
       }
-    }
+    ]
+  }
+}
+`

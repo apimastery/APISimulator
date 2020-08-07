@@ -74,13 +74,13 @@ response:
   - "Location: /v3/products/${ format(ProductID, '%012d') }/details"
   - "Content-Type: application/text"
   
-  body: |+
-    ${ UpdateTimestampParm } --> ${ formatDateTime(UpdateTimestampParm, 'E, dd MMM yyyy HH:mm:ss z', 'GMT') }
-    {
-      "jsonEncodedField": "${ jsonEncode(JsonValueParm) }"
-    }
-    url=${ urlEncode(UrlValueParm) }
-    <tag>${ xmlEncode(XmlValueParm) }</tag>
-    <input type="button" value="${ htmlEncode(HtmlValueParm) }" />
-    quotedNumber=${ jsonEncode( format(NumberValueParm, '"%06d"') ) }
-    
+  body: `
+${ UpdateTimestampParm } --> ${ formatDateTime(UpdateTimestampParm, 'E, dd MMM yyyy HH:mm:ss z', 'GMT') }
+{
+  "jsonEncodedField": "${ jsonEncode(JsonValueParm) }"
+}
+url=${ urlEncode(UrlValueParm) }
+<tag>${ xmlEncode(XmlValueParm) }</tag>
+<input type="button" value="${ htmlEncode(HtmlValueParm) }" />
+quotedNumber=${ jsonEncode( format(NumberValueParm, '"%06d"') ) }
+`

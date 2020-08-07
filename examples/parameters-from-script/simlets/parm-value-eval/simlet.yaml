@@ -19,19 +19,19 @@ ProfileID:
   from: header
   named: "Cookie"
   # It's not a that robust cookie extraction code but demonstrates the use of 'eval'
-  eval: |-
-    // The header value may be missing
-    if (null != _) {
-      cookies = _.split(';')
-      for (c in cookies) {
-        i = c.indexOf('profile_id=')
-        if (i >= 0) {
-          return c.substring(i + 'profile_id='.length())
-        }
-      }
-    }
-    return ''
-
+  eval: `
+     // The header value may be missing
+     if (null != _) {
+       cookies = _.split(';')
+       for (c in cookies) {
+         i = c.indexOf('profile_id=')
+         if (i >= 0) {
+           return c.substring(i + 'profile_id='.length())
+         }
+       }
+     }
+     return ''
+`
 
 response:
   from: template
@@ -40,11 +40,12 @@ response:
   status: 200
   headers:
   - "Content-Type: application/json; charset=UTF-8"
-  body: |
-    {
-      "user-profile": {
-        "id": "${ jsonEncode(ProfileID) }",
-        "first_name": "Ann",
-        "last_name": "Jonson"
-      }
-    }
+  body: `
+{
+  "user-profile": {
+    "id": "${ jsonEncode(ProfileID) }",
+    "first_name": "Ann",
+    "last_name": "Jonson"
+  }
+}
+`

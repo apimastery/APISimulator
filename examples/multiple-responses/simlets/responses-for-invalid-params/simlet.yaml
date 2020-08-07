@@ -54,11 +54,12 @@ responses:
   # then
   from: stub
   status: 400
-  body: |
-    {
-      "status": "error",
-      "message": "Missing required date parameter 'fromDate' in 'yyyy-MM-dd' format"
-    }
+  body: `
+{
+    "status": "error",
+    "message": "Missing required date parameter 'fromDate' in 'yyyy-MM-dd' format"
+}
+`
 
 - when:
     request:
@@ -69,11 +70,12 @@ responses:
   from: stub
   template: Simula
   status: 400
-  body: |
-    {
-      "status": "error",
-      "message": "Missing required date parameter 'toDate' in 'yyyy-MM-dd' format"
-    }
+  body: `
+{
+    "status": "error",
+    "message": "Missing required date parameter 'toDate' in 'yyyy-MM-dd' format"
+}
+`
 
   # otherwise
 - from: template
@@ -81,9 +83,10 @@ responses:
   status: 200
   headers:
   - "Content-Type: application/json"
-  body: |
-    {
-      "status": "OK",
-      "message": "Received request with required parameters fromDate='${_request.uri.query.params.first('fromDate')}' and toDate='${_request.uri.query.params.first('toDate')}'"
-    }
+  body: `
+{
+    "status": "OK",
+    "message": "Received request with required parameters fromDate='${_request.uri.query.params.first('fromDate')}' and toDate='${_request.uri.query.params.first('toDate')}'"
+}
+`
 #---

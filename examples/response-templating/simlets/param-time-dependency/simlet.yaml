@@ -53,24 +53,25 @@ response:
   - "Date: ${ httpDateTime(CurrentDateTime) }"
   - "Cache-Control: public, max-age=86400"
 
-  body: |+
-    {
-       "results" : [
-          {
-             "name" : "Coo-coo Restaurant",
-             "place_id" : "Ch0J6x87RAO6j4ARbjFzE2toxSo",
-             "rating" : 4.2
-          },
-          {
-             "name" : "Cafe Morning Mist",
-             "place_id" : "Ch0JOYz8N005j4ARGju9G_lCIk8",
-             "rating" : 4.3
-          },
-          {
-             "name" : "Jerry's Cafe",
-             "place_id" : "Ch0Jh8lHZdf6j4ARzsQzXj46ITI",
-             "rating" : 4.2
-          }
-       ],
-       "status" : "OK"
-    }
+  body: `
+{
+   "results" : [
+      {
+         "name" : "Coo-coo Restaurant",
+         "place_id" : "Ch0J6x87RAO6j4ARbjFzE2toxSo",
+         "rating" : 4.2
+      },
+      {
+         "name" : "Cafe Morning Mist",
+         "place_id" : "Ch0JOYz8N005j4ARGju9G_lCIk8",
+         "rating" : 4.3
+      },
+      {
+         "name" : "Jerry's Cafe",
+         "place_id" : "Ch0Jh8lHZdf6j4ARzsQzXj46ITI",
+         "rating" : 4.2
+      }
+   ],
+   "status" : "OK"
+}
+`

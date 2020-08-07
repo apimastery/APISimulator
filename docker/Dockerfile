@@ -1,13 +1,13 @@
 # API Simulator Dockerfile
 
 # Debian-based
-FROM openjdk:11.0.6-jre-slim 
+FROM openjdk:11.0.8-jre-slim 
 
 MAINTAINER https://apisimulator.io/
 
 # Pass in as build argument instead. For example:
-# --build-arg APISIMULATOR_VERSION=1.6
-#ENV APISIMULATOR_VERSION 1.6
+# --build-arg APISIMULATOR_VERSION=1.7
+#ENV APISIMULATOR_VERSION 1.7
 ARG  APISIMULATOR_VERSION
 
 # Download and install API Simulator

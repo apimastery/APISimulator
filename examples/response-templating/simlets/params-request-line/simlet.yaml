@@ -99,21 +99,21 @@ response:
   status: 200
   headers:
   - "Content-Type: text/yaml"
-  body: |+
-    request:
-      httpMethod: "${HttpMethodParm}"
-      scheme: "${UriSchemeParm}"
-      uri: "${UriParm}"
-      uriPath: "${UriPathParm}" 
-      host: "${UriHostParm}"
-      port: ${UriPortParm}
-      userInfo: "${UriUserInfoParm}"
-      skuPathSegmentParm: "${SkuParm}"
-      colorPathSegmentParm: "${ColorParm}"
-      sizePathSegmentParm: "${SizeParm}"
-      allQueryStringParms: ${AllQSParms}
-      queryStringParm1: ${QsParm1}
-      queryStringParm2: ${QsParm2}
-      fragment: "${UriFragmentParm}"
-      httpVersion: "${HttpVersionParm}" 
-      
+  body: `
+request:
+  httpMethod: "${HttpMethodParm}"
+  scheme: "${UriSchemeParm}"
+  uri: "${UriParm}"
+  uriPath: "${UriPathParm}" 
+  host: "${UriHostParm}"
+  port: ${UriPortParm}
+  userInfo: "${UriUserInfoParm}"
+  skuPathSegmentParm: "${SkuParm}"
+  colorPathSegmentParm: "${ColorParm}"
+  sizePathSegmentParm: "${SizeParm}"
+  allQueryStringParms: ${AllQSParms}
+  queryStringParm1: ${QsParm1}
+  queryStringParm2: ${QsParm2}
+  fragment: "${UriFragmentParm}"
+  httpVersion: "${HttpVersionParm}" 
+`

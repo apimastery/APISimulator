@@ -56,7 +56,7 @@ response:
     # can't add "\r\n" line break automatically when needed but it is not present.
     optional: true
 
-  body: |+
+  body: `
     {
       "queryStringParms": {
         "total": ${ QueryStringParms.count() },
@@ -113,3 +113,4 @@ response:
         %>
       }
     }
+`
