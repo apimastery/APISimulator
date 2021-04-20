@@ -36,4 +36,4 @@ response:
 
   body:
     type: binary
-    file: "${simlets.path}/binary-body-file/favicon-16x16.png"
+    file: "${ simlet.path }/favicon-16x16.png"

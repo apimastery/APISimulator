@@ -16,4 +16,4 @@ response:
   - "Content-Type: image/png"
   body:
     type: binary
-    file: "${simlets.path}/binary-file-body-stub/favicon-16x16.png"
+    file: "${simlet.path}/favicon-16x16.png"

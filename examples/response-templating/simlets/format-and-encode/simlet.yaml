@@ -63,6 +63,11 @@ NumberValueParm:
   value: 456
   as: int32
 
+EncodedUrlParm:
+  is: parameter
+  from: uriQueryParameter
+  named: "filters"
+  eval:  "return _ ? (_.size() > 0 ? _[0] : '') : ''"
 
 response:
   from: template
@@ -83,4 +88,5 @@ url=${ urlEncode(UrlValueParm) }
 <tag>${ xmlEncode(XmlValueParm) }</tag>
 <input type="button" value="${ htmlEncode(HtmlValueParm) }" />
 quotedNumber=${ jsonEncode( format(NumberValueParm, '"%06d"') ) }
+decodedUrlParm: '${ urlDecode(EncodedUrlParm) }'
 `

@@ -1,0 +1,45 @@
+2020-11-21 16:55:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+ [42102-197]
+2020-11-21 16:55:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+ [42102-197]
+2020-11-21 16:55:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+ [42102-197]
+2020-11-21 16:55:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+ [42102-197]
+2020-11-21 16:55:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUCT" not found; SQL statement:
+SELECT p.*, c.* 
+FROM PRODUCT p, PRICE c 
+WHERE p.SKU = c.SKU 
+  AND p.ProductID=? 
+  AND p.Color=? 
+  AND p.Size=?
+ [42102-197]

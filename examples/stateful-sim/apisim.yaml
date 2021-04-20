@@ -1,0 +1,239 @@
+simulation: stateful-sim-example
+
+kvStores:
+  - name: customers
+    slots: 5
+---
+simlet: read-customer
+
+# The value of the customerId from the URI path
+# or null if the path doesn't match the pattern
+CustomerId:
+  is: parameter
+  from: uriPathPattern
+  pattern: /api/v1/customers/{customerId}
+
+request:
+  - method: GET
+  - where: parameter
+    named: CustomerId
+    not equals: null
+
+# KV Store with Customers data persisted across requests
+Customers:
+  is: parameter
+  from: kvStore
+  named: customers
+
+# The `eval` expression will return the element identified  
+# by the CustomerId key if it exists, or null otherwise 
+Customer:
+  is: parameter
+  from: constant
+  eval: return Customers.get(CustomerId)
+
+responses:
+  - when:
+      request:
+        - where: parameter
+          named: Customer
+          equals: null
+    from: stub
+    # Not Found
+    status: 404
+
+    # otherwise
+  - from: template
+    status: 200  
+    body: "${Customer}"
+---
+simlet: create-customer
+
+request:
+  - method: POST
+  - uriPath: /api/v1/customers
+  - where: header
+    named: "content-type"
+    contains: "application/json"
+
+# The whole JSON body of the request
+Customer:
+  is: parameter
+  from: body
+
+# The value of the top-level `id` field from the JSON body 
+CustomerId:
+  is: parameter
+  from: body
+  element: .id
+
+# KV Store with Customers data persisted across requests
+Customers:
+  is: parameter
+  from: kvStore
+  named: customers
+
+# A flag whether Customer identified by the input 
+# CustomerId already exists in the Store or not
+CustomerExists:
+  is: parameter
+  from: constant
+  eval: return Customers.containsKey(CustomerId)
+
+responses:
+  - when:
+      request:
+        - where: parameter
+          named: CustomerId
+          exists: false
+    from: stub
+    # Bad Request - the request body doesn't have id field
+    status: 400
+
+  - when:
+      request:
+        - where: parameter
+          named: CustomerExists
+          equals: true
+    from: stub
+    # Can't create a duplicate. Here we return 409 (Conflict)
+    # but an API could be designed to return something else 
+    # like, say, 422 (Unprocessable Entity)    
+    status: 409
+
+    # otherwise
+  - from: template
+    # 201 (Created)
+    status: 201
+    headers:
+        # Where the newly created resource can be accessed 
+      - "Location: /api/v1/customers/${CustomerId}"
+    # Nothing is actually returned in the body - 
+    # notice that storing the Customer in the KV Store 
+    # is via a <%%> scriptlet and not a ${} placeholder,
+    # which returns a value and the value is written out
+    body: <% Customers.put(CustomerId, Customer) %>
+---
+simlet: update-customer
+
+request:
+  - method: PUT
+  - uriPath: /api/v1/customers
+  - where: header
+    named: "content-type"
+    contains: "application/json"
+  - where: parameter
+    named: CustomerId
+    exists: true
+
+CustomerId:
+  is: parameter
+  from: body
+  element: .id
+
+Customer:
+  is: parameter
+  from: body
+
+# KV Store with Customers data persisted across requests
+Customers:
+  is: parameter
+  from: kvStore
+  named: customers
+
+CustomerExists:
+  is: parameter
+  from: constant
+  eval: return Customers.containsKey(CustomerId)
+
+responses:
+  - when:
+      request:
+        - where: parameter
+          named: CustomerExists
+          equals: false
+    from: stub
+    status: 404
+  
+    # otherwise
+  - from: template
+    status: 200
+    headers:
+      - "Location: /api/v1/customers/${CustomerId}"
+    # Nothing is actually returned in the body - 
+    # notice that storing the Customer in the KV Store 
+    # is via a <%%> scriptlet and not a ${} placeholder,
+    # which returns a value and the value is written out
+    body: <% Customers.put(CustomerId, Customer) %>
+---
+simlet: delete-customer
+
+request:
+  - method: DELETE
+  - where: parameter
+    named: CustomerId
+    not equals: null
+
+CustomerId:
+  is: parameter
+  from: uriPathPattern
+  pattern: /api/v1/customers/{customerId}
+
+# KV Store with Customers data persisted across requests
+Customers:
+  is: parameter
+  from: kvStore
+  named: customers
+
+CustomerExists:
+  is: parameter
+  from: constant
+  eval: return Customers.containsKey(CustomerId)
+
+responses:
+  - when:
+      request:
+        - where: parameter
+          named: CustomerExists
+          equals: false
+    from: stub
+    # Not Found - can't delete
+    status: 404
+  
+    # otherwise
+  - from: template
+    status: 200
+    # Nothing is actually returned in the body - 
+    # notice that storing the Customer in the KV Store 
+    # is via a <%%> scriptlet and not a ${} placeholder,
+    # which returns a value and the value is written out
+    body: <% Customers.remove(CustomerId) %>
+---
+simlet: list-customers
+
+request:
+  - method: GET
+  - uriPath: /api/v1/customers
+
+# KV Store with Customers data persisted across requests
+Customers:
+  is: parameter
+  from: kvStore
+  named: customers
+
+response:
+  from: template
+  status: 200  
+  body: `
+{ "customers": [
+<%
+  count = 0;
+  for (customerEntry : Customers.getAll()) {
+    if (count > 0) {
+      write ','
+    }
+    write customerEntry.value
+    count++
+  }
+%>  ]
+}`

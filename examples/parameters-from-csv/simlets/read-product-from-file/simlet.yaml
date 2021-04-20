@@ -27,7 +27,7 @@ ProductData:
   # A column value that contains a comma or double quote(s) is to be surrounded 
   # by double quotes. Each double quote inside of a column value is to be escaped
   # with another double quote
-  file: "${simlets.path}/product-data.csv"
+  file: "${sim.path}/product-data.csv"
 
   # List of keys from parameters to use in querying the CSV data. 
   # A parameter as key may appear more than once in the list.

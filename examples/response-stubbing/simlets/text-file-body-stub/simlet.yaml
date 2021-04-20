@@ -15,4 +15,4 @@ response:
   body:
     # implied type text
     # type: text
-    file: "${simlets.path}/text-file-body-stub/place.json"
+    file: "${simlet.path}/place.json"

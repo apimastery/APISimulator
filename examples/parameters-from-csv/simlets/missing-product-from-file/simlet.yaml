@@ -22,7 +22,7 @@ Size:
 ProductData:
   is: parameter
   from: csv
-  file: "${simlets.path}/product-data.csv"
+  file: "${sim.path}/product-data.csv"
   keys:
   - ProductID
   - Color
