@@ -1,7 +1,7 @@
 # API Simulator Dockerfile
 
 # Debian-based
-FROM docker.io/eclipse-temurin:19.0.2_7-jre-jammy
+FROM docker.io/eclipse-temurin:11.0.19_7-jre-jammy
 
 MAINTAINER https://apisimulator.io/
 
