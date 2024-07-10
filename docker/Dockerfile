@@ -6,7 +6,7 @@ FROM docker.io/eclipse-temurin:11.0.23_9-jre-jammy
 MAINTAINER https://apisimulator.io/
 
 # Pass in as build argument instead. For example:
-# --build-arg APISIMULATOR_VERSION=1.112
+# --build-arg APISIMULATOR_VERSION=1.12
 #ENV APISIMULATOR_VERSION 1.12
 ARG  APISIMULATOR_VERSION
 
