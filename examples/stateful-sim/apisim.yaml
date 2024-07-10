@@ -232,6 +232,7 @@ response:
     if (count > 0) {
       write ','
     }
+    // write customerEntry.key + '; '
     write customerEntry.value
     count++
   }

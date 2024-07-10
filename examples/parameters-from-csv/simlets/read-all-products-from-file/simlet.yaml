@@ -14,13 +14,7 @@ ProductID:
 Color:
   is: parameter
   from: uriPathPattern
-  pattern: "/v1.1/product/*/{Color}/*"
-
-# Parameter names must match the column names in the CSV file
-Size:
-  is: parameter
-  from: uriPathPattern
-  pattern: "/v1.1/product/*/*/{Size}"
+  pattern: "/v1.1/product/*/{Color}"
 
 
 ProductData:
@@ -40,21 +34,20 @@ ProductData:
   keys:
   - ProductID
   - Color
-  - Size
 
   # pick: first | all
   # The parameter will contain the "first" matching row or "all" of them 
-  # for the given key(s) as a single object or a list, respectively. 
+  # for the given key(s) as a single object or a list, respectively.
   # No matches results in null.
   # For backward compatibility, it defaults to "first". Added in v1.12
-  pick: first
+  pick: all
 
 
 request:
 - method: GET
 
 - where: uriPathPattern
-  matches: "/v1.1/product/{id}/{color}/{size}"
+  matches: "/v1.1/product/{id}/{color}"
 
   # Matcher that tests if the product data keyed by id,  
   # color, and size as they come in the request (!)
@@ -75,16 +68,24 @@ response:
 
   body: `
 {
-  "product": {
-    "id": "${ ProductData['ProductID'] }",
-    "sku": "${ ProductData['SKU'] }",
-    "name": "${ jsonEncode( ProductData['Name'] ) }",
-    "category": "${ ProductData['Category'] }",
-    "subCategory": "${ ProductData['Subcategory'] }",
-    "color": "${ ProductData['Color'] }",
-    "size": "${ ProductData['Size'] }",
-    "orig_price": ${ ProductData['Original_Price'] },
-    "sale_price": ${ ProductData['Sale_Price'] }
-  }
+  "products": [<%
+// Sorting isn't necessary but helps with getting a deterministic result in unit tests  
+ProductData.sort { it.SKU }
+count = 0;
+for (Product : ProductData) { 
+  if (count++ > 0) { write "," } %>
+    {
+      "id": "${ Product['ProductID'] }",
+      "sku": "${ Product['SKU'] }",
+      "name": "${ jsonEncode( Product['Name'] ) }",
+      "category": "${ Product['Category'] }",
+      "subCategory": "${ Product['Subcategory'] }",
+      "color": "${ Product['Color'] }",
+      "size": "${ Product['Size'] }",
+      "orig_price": ${ Product['Original_Price'] },
+      "sale_price": ${ Product['Sale_Price'] }
+    }<% 
+} %>
+  ]
 }
 `

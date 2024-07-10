@@ -50,6 +50,12 @@ WHERE p.SKU = c.SKU
   AND p.Size=?
 `
 
+  # pick: first | all
+  # The parameter will contain the "first" matching row or "all" of them
+  # as a single object or a list, respectively. No matches results in null.
+  # For backward compatibility, it defaults to "first". Added in v1.12
+  pick: first
+  
   # Ordered list of parameters to use in querying the SQL database. 
   # A parameter may appear more than once in the list.
   # The parameter names need not to match the database column names

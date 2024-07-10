@@ -12,13 +12,8 @@ ProductID:
 ProductColor:
   is: parameter
   from: uriPathPattern
-  pattern: "/v1.2/product/*/{Color}/*"
+  pattern: "/v1.2/product/*/{Color}"
 
-# Parameter names must match the name of the columns in the CSV data
-ProductSize:
-  is: parameter
-  from: uriPathPattern
-  pattern: "/v1.2/product/*/*/{Size}"
 
 ProductData:
   is: parameter
@@ -55,21 +50,20 @@ ProductID,ProductCategory,ProductSubcategory,ProductName,ProductColor,ProductSiz
   keys:
   - ProductID
   - ProductColor
-  - ProductSize
 
   # pick: first | all
   # The parameter will contain the "first" matching row or "all" of them 
   # for the given key(s) as a single object or a list, respectively.
   # No matches results in null.
   # For backward compatibility, it defaults to "first". Added in v1.12
-  pick: first
+  pick: all
 
 
 request:
 - method: GET
 
 - where: uriPathPattern
-  matches: "/v1.2/product/{id}/{color}/{size}"
+  matches: "/v1.2/product/{id}/{color}"
 
 - where: parameter
   named: ProductData
@@ -79,21 +73,32 @@ request:
 response:
   from: template
   template: Simula
+    
   status: 200
+  
   headers:
   - "Content-Type: application/json; charset=UTF-8"
+
   body: `
 {
-  "product": {
-    "id": "${ ProductData['ProductID'] }",
-    "sku": "${ ProductData['ProductSKU'] }",
-    "name": "${  jsonEncode( ProductData['ProductName'] ) }",
-    "category": "${ ProductData['ProductCategory'] }",
-    "subCategory": "${ ProductData['ProductSubcategory'] }",
-    "color": "${ ProductData['ProductColor'] }",
-    "size": "${ ProductData['ProductSize'] }",
-    "orig_price": ${ ProductData['Original_Price'] },
-    "sale_price": ${ ProductData['Sale_Price'] }
-  }
+  "products": [<%
+// Sorting isn't necessary but helps with getting a deterministic result in unit tests  
+ProductData.sort { it.ProductSKU }
+count = 0;
+for (Product : ProductData) { 
+  if (count++ > 0) { write "," } %>
+    {
+      "id": "${ Product['ProductID'] }",
+      "sku": "${ Product['ProductSKU'] }",
+      "name": "${ jsonEncode( Product['ProductName'] ) }",
+      "category": "${ Product['ProductCategory'] }",
+      "subCategory": "${ Product['ProductSubcategory'] }",
+      "color": "${ Product['ProductColor'] }",
+      "size": "${ Product['ProductSize'] }",
+      "orig_price": ${ Product['Original_Price'] },
+      "sale_price": ${ Product['Sale_Price'] }
+    }<% 
+} %>
+  ]
 }
 `
