@@ -14,13 +14,14 @@ responses:
 - when:
     request:
     - where: callsPerSecond
-      exceed: 100
+      exceed: 2 #100
   # then
   from: stub
   status: 429
   headers:
   - "Content-Type: application/json"
-  - "X-RateLimit-Limit: 100"
+  #- "X-RateLimit-Limit: 100"
+  - "X-RateLimit-Limit: 2"
   body: `
 {
   "status": "error",
