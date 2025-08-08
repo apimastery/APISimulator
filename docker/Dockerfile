@@ -1,13 +1,13 @@
 # API Simulator Dockerfile
 
 # Debian-based
-FROM docker.io/eclipse-temurin:11.0.23_9-jre-jammy
+FROM docker.io/eclipse-temurin:11.0.28_6-jre-noble
 
 MAINTAINER https://apisimulator.io/
 
 # Pass in as build argument instead. For example:
-# --build-arg APISIMULATOR_VERSION=1.12
-#ENV APISIMULATOR_VERSION 1.12
+# --build-arg APISIMULATOR_VERSION=1.13
+#ENV APISIMULATOR_VERSION 1.13
 ARG  APISIMULATOR_VERSION
 
 # Download and install API Simulator
